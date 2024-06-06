@@ -1,0 +1,46 @@
+{
+	"firewallInfo":[
+		{
+			"measurementSourceId":12,
+			"pmCampaignId":21314045934,
+			"partnerName":"Youtube GoogleAds - Partner Measurement",
+			"campaignName":"--1015272_SONY_Garfield_FEE_NS_0_0__DG_Makegood",
+			"advEntityId":0,
+			"teamId":0,
+			"pmVendorClientId":"2610",
+			"lastModified":"2024-05-25 01:20:08",
+			"action":"Unmapped",
+			"lastModifiedBy":"Admin User"
+		},
+		{	
+			"measurementSourceId":12,
+			"pmCampaignId":21338985973,
+			"partnerName":"Youtube GoogleAds - Partner Measurement",
+			"campaignName":"--1015332_SONY_Garfield_FEE_NS15_0_0__DG_Chase",
+			"advEntityId":0,
+			"teamId":0,
+			"pmVendorClientId":"2610",
+			"lastModified":"2024-06-06 01:18:21",
+			"action":"Unmapped",
+			"lastModifiedBy":"Admin User"
+		}
+	],
+	"analyticsInfo":[
+		{
+			"measurementSourceId":13,
+			"pmCampaignId":21258718061,
+			"advertiserName":"Sony Pictures Theatrical",
+			"advertiserId":2962132,
+			"lastHit":"2024-06-05",
+			"totalAds":31525665
+		},
+		{
+			"measurementSourceId":13,
+			"pmCampaignId":21270286967,
+			"advertiserName":"Sony Pictures Theatrical",
+			"advertiserId":2962132,
+			"lastHit":"2024-06-05",
+			"totalAds":18060063
+		}
+	]
+}

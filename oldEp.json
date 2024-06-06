@@ -1,0 +1,49 @@
+{
+  "firewallInfo" : [ {
+    "measurementSourceId" : 12,
+    "pmCampaignId" : "21314045934",
+    "advertiserName" : null,
+    "partnerName" : "Youtube GoogleAds - Partner Measurement",
+    "campaignName" : "--1015272_SONY_Garfield_FEE_NS_0_0__DG_Makegood",
+    "iasCampaignName" : null,
+    "advEntityId" : null,
+    "mappedOn" : null,
+    "teamId" : null,
+    "advertiserId" : null,
+    "pmVendorClientId" : "2610",
+    "lastModified" : "2024-05-25",
+    "createdOn" : "2024-05-25",
+    "lastHit" : null,
+    "totalAds" : null,
+    "action" : "Unmapped",
+    "reason" : null,
+    "salesforceTicketUrl" : null,
+    "accountManagerId" : null,
+    "clientServicesManagerId" : null,
+    "lastModifiedBy" : "Admin User"
+  }
+ ],
+  "analyticsInfo" : [ {
+    "measurementSourceId" : 13,
+    "pmCampaignId" : "21258718061",
+    "advertiserName" : "Sony Pictures Theatrical",
+    "advertiserId" : "2962132",
+    "lastHit" : "2024-06-05T04:00:00.000+0000",
+    "totalAds" : 31525665
+  }, {
+    "measurementSourceId" : 13,
+    "pmCampaignId" : "21270286967",
+    "advertiserName" : "Sony Pictures Theatrical",
+    "advertiserId" : "2962132",
+    "lastHit" : "2024-06-05T04:00:00.000+0000",
+    "totalAds" : 18060063
+  }, {
+    "measurementSourceId" : 13,
+    "pmCampaignId" : "21327954456",
+    "advertiserName" : "Sony Pictures Theatrical",
+    "advertiserId" : "2962132",
+    "lastHit" : "2024-06-05T04:00:00.000+0000",
+    "totalAds" : 13156154
+  }
+]
+}

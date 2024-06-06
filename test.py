@@ -5,7 +5,7 @@ from deepdiff import DeepDiff
 
 # Function to load JSON data from a file
 def load_json(file_path):
-    basepath = '/Users/jramirezlondono/Documents/'
+    basepath = ''
     with open(basepath +file_path, 'r') as file:
         return json.load(file)
 
@@ -29,8 +29,8 @@ def load_test1():
     # Paths to the JSON files
     #file1_path = 'response-nemo.json'
     #file2_path = 'response-rpc.json'
-    file1_path = 'GetAllSeparatedByTeamNemo.json'
-    file2_path = 'GetAllSeparatedByTeamGrpc.json'
+    file1_path = 'oldEp.json'
+    file2_path = 'newEp.json'
     # Load JSON data from the files
     calculate_diff(file1_path, file2_path)
 
@@ -39,8 +39,8 @@ def load_test2():
     # Paths to the JSON files
     #file1_path = 'response-nemo.json'
     #file2_path = 'response-rpc.json'
-    file1_path = 'GetAllSeparatedByTeamNemo.json'
-    file2_path = 'GetAllSeparatedByTeamNemo.json'
+    file1_path = 'oldEp.json'
+    file2_path = 'newEp.json'
     # Load JSON data from the files
     calculate_diff(file1_path, file2_path)
 
@@ -49,11 +49,15 @@ def load_test3():
     # Paths to the JSON files
     #file1_path = 'response-nemo.json'
     #file2_path = 'response-rpc.json'
-    file2_path = 'GetAllSeparatedByTeamNemo.json'
-    file1_path = 'GetAllSeparatedByTeamGrpc.json'
+    file2_path = 'oldEp.json'
+    file1_path = 'newEp.json'
     # Load JSON data from the files
     calculate_diff(file1_path, file2_path)
 
-#load_test1()
-#load_test2()
-#load_test3()
+load_test1()
+
+print("*" * 100)
+
+load_test2()
+print("*" * 100)
+load_test3()
