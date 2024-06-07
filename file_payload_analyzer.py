@@ -14,7 +14,7 @@ class File(object):
     key: str
     path: str
 
-def loadFile(prefix, file_name, sortKey):
+def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
     thislist = []
     try:
         # request file name
@@ -22,7 +22,7 @@ def loadFile(prefix, file_name, sortKey):
         file_size = os.path.getsize(file_name)
         data = json.load(f)
         root_keys = list(data.keys())
-        print(root_keys)
+        #print(root_keys)
 
         keys_to_split = root_keys
         # Split the object into smaller objects based on the keys
@@ -43,7 +43,7 @@ def loadFile(prefix, file_name, sortKey):
                     records = len(df2.index)
                 f.write(sorted_data_list_pretty)
                 tfile_size = os.path.getsize(f'{prefix}-{key}.json')
-                print(f'{prefix}-{key} Records {records} size {tfile_size}')
+                print(f'Created ... {prefix}-{key} Records {records} with size {tfile_size}')
                 fileRecord = File(key, f'{prefix}-{key}.json')
                 thislist.append(fileRecord)
                 #print(sorted_data_list_pretty)
@@ -56,8 +56,8 @@ def loadFile(prefix, file_name, sortKey):
 
 ID = "pmCampaignId"
 
-fileListNemo = loadFile( "nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json", ID)
-fileListGRPC = loadFile( "grpc", "/Users/jramirezlondono/Documents/response-rpc-1.json", ID )
-print(str(fileListNemo))
-print(str(fileListGRPC))
+fileListNemo = loadFile_and_split_by_root_entry("nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json", ID)
+fileListGRPC = loadFile_and_split_by_root_entry("grpc", "/Users/jramirezlondono/Documents/response-rpc-1.json", ID)
+#print(str(fileListNemo))
+#print(str(fileListGRPC))
 checkDiff(fileListNemo, fileListGRPC, ID)
