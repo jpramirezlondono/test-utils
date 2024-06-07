@@ -67,7 +67,7 @@ print("Application starting ...")
 ID = "pmCampaignId"
 IGNORE_TYPE_IN_GROUPS = False
 IGNORE_DICTIONARY_ITEMS_REMOVED = False
-IGNORE_PATH = ["root['lastHit']"]
+IGNORE_PATH = ["root['lastHit']", "root['lastModified']"]
 
 
 fileListNemo = (loadFile_and_split_by_root_entry
