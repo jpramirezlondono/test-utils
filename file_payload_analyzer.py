@@ -1,13 +1,15 @@
 
 import sys
+from sys import getsizeof
 import os
 import json
 import math
 import pandas as pd
 from dataclasses import dataclass
 from diff_manager import *
+from path_manager import *
 
-MAX_RECORDS = 10
+MAX_RECORDS = 0
 
 @dataclass
 class File(object):
@@ -18,35 +20,39 @@ def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
     thislist = []
     try:
         # request file name
-        f = open(file_name)
-        file_size = os.path.getsize(file_name)
-        data = json.load(f)
+        file_in_text = open(file_name)
+        data = json.load(file_in_text)
         root_keys = list(data.keys())
-        #print(root_keys)
 
         keys_to_split = root_keys
         # Split the object into smaller objects based on the keys
         split_data = {key: data[key] for key in keys_to_split}
         # Save each smaller object into a separate file
         for key, value in split_data.items():
-            with open(f'{prefix}-{key}.json', 'w') as f:
-                df2 = pd.DataFrame(value)
-                df2[[sortKey]] = df2[[sortKey]].astype(int)
-                sorted = df2.sort_values(by=[sortKey])
-                sorted_data_list = sorted.to_dict(orient="records")
+            with open(get_path(f'{prefix}-{key}.json'), 'w') as f:
+                panadas_dataFrame = pd.DataFrame(value)
+                panadas_dataFrame[[sortKey]] = panadas_dataFrame[[sortKey]].astype(int)
+                sorted_data = panadas_dataFrame.sort_values(by=[sortKey])
+                sorted_data_list = sorted_data.to_dict(orient="records")
+                total_size = getsizeof(sorted_data)
+                total_records = len(sorted_data_list)
                 if( MAX_RECORDS != 0 ):
                     sorted_data_list = sorted_data_list[:MAX_RECORDS]
                 sorted_data_list_pretty = json.dumps(sorted_data_list, indent=4)
                 if( MAX_RECORDS != 0 ):
                     records = len(sorted_data_list)
                 else:
-                    records = len(df2.index)
+                    records = len(panadas_dataFrame.index)
                 f.write(sorted_data_list_pretty)
-                tfile_size = os.path.getsize(f'{prefix}-{key}.json')
-                print(f'Created ... {prefix}-{key} Records {records} with size {tfile_size}')
-                fileRecord = File(key, f'{prefix}-{key}.json')
-                thislist.append(fileRecord)
-                #print(sorted_data_list_pretty)
+                tfile_size = os.path.getsize(get_path(f'{prefix}-{key}.json'))
+                if( MAX_RECORDS != 0 ):
+                    print(f'Created ... {prefix}-{key} Records {records} with size {tfile_size} out of {total_records} Records total size {total_size}')
+                else:
+                    print(f'Created ... {prefix}-{key} Records {records} with size {tfile_size}')
+
+                fileRecordInstance = File(key, f'{prefix}-{key}.json')
+                thislist.append(fileRecordInstance)
+
     except:
         print(exception)
         print('Error loading JSON file ... exiting')
@@ -54,8 +60,7 @@ def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
 
 
 
-ID = "pmCampaignId"
-
+ID = "pmCampaignId" #Key to sort and to identify the records
 fileListNemo = loadFile_and_split_by_root_entry("nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json", ID)
 fileListGRPC = loadFile_and_split_by_root_entry("grpc", "/Users/jramirezlondono/Documents/response-rpc-1.json", ID)
 #print(str(fileListNemo))

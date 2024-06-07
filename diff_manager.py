@@ -2,7 +2,7 @@ from deepdiff import DeepDiff
 import json
 import re
 from dataclasses import dataclass
-import pprint
+from path_manager import *
 
 @dataclass
 class DiffEntry(object):
@@ -52,9 +52,9 @@ def checkDiff(filesListBase, filesListCompared, ID):
         fileRecord =  next(x for x in filesListCompared if x.key ==fileRecordBase.key)
         print(f'Base {str(fileRecordBase)} ToCompare with {str(fileRecord)}')
 
-        with open(f'diff-{fileRecordBase.key}.json', 'w') as f:
-            json_data1 = load_json(fileRecordBase.path)
-            json_data2 = load_json(fileRecord.path)
+        with open(get_path(f'diff-{fileRecordBase.key}.json'), 'w') as f:
+            json_data1 = load_json(get_path(fileRecordBase.path))
+            json_data2 = load_json(get_path(fileRecord.path))
             differences = compare_records_by_id(json_data1, json_data2, ID)
             if not differences:
                 print(f"JSON objects are equal {fileRecordBase.key}")
@@ -64,4 +64,5 @@ def checkDiff(filesListBase, filesListCompared, ID):
                 jsonF = json.dumps(differences, default=lambda o: o.__dict__)
                 #print(jsonF)
                 f.write(jsonF)
+                print(f'Created ... diff-{fileRecordBase.key}.json  Records ', len(differences))
             #pprint(jsonF)
