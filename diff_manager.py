@@ -53,14 +53,14 @@ def checkDiff(filesListBase, filesListCompared, id, ignore_type_in_groups, ignor
         fileRecord =  next(x for x in filesListCompared if x.key ==fileRecordBase.key)
         print(f'Base {str(fileRecordBase)} ToCompare with {str(fileRecord)}')
 
-        with open(get_path(f'diff-{fileRecordBase.key}.json'), 'w') as f:
-            json_data_base = load_json(get_path(fileRecordBase.path))
-            json_data_compare_to= load_json(get_path(fileRecord.path))
-            differences = compare_records_by_id(json_data_base, json_data_compare_to, id, ignore_type_in_groups, ignore_items_removed, ignore_path, **kwargs)
-            if not differences:
-                print(f"\tJSON objects are equal!!!!!!!!!!!! {fileRecordBase.key}")
-            else:
+        json_data_base = load_json(get_path(fileRecordBase.path))
+        json_data_compare_to= load_json(get_path(fileRecord.path))
+        differences = compare_records_by_id(json_data_base, json_data_compare_to, id, ignore_type_in_groups, ignore_items_removed, ignore_path, **kwargs)
+        if not differences:
+            print(f"\tJSON objects are equal!!!!!!!!!!!! {fileRecordBase.key}")
+        else:
+            with open(get_path(f'diff-{fileRecordBase.key}.json'), 'w') as f:
                 jsonF = json.dumps(differences, default=lambda o: o.__dict__)
                 f.write(jsonF)
                 print(f'\tCreated ... diff-{fileRecordBase.key}.json  Records ', len(differences))
-            #pprint(jsonF)
+        #pprint(jsonF)
