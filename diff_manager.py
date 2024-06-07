@@ -38,7 +38,7 @@ def compare_records_by_id(dict1, dict2, id_key='id', ignore_type_in_groups = Fal
             differencesArr.append(DiffEntry(id_value, {'record_removed': dict1_by_id[id_value]}))
         else:
             differences[id_value] = {'record_added': dict2_by_id[id_value]}
-            differencesArr.append(DiffEntry(id_value, {'record_removed': dict2_by_id[id_value]}))
+            differencesArr.append(DiffEntry(id_value, {'record_added': dict2_by_id[id_value]}))
     return differencesArr
 
 
