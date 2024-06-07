@@ -19,7 +19,7 @@ def convert_types_to_string(data):
     else:
         return data
 
-def compare_records_by_id(dict1, dict2, id_key='id', ignore_types = False, ignore_items_removed = False, exclude_paths = [], **kwargs):
+def compare_records_by_id(dict1, dict2, id_key='id', ignore_type_in_groups = False, ignore_items_removed = False, exclude_paths = [], **kwargs):
     dict1_by_id = {item[id_key]: item for item in dict1}
     dict2_by_id = {item[id_key]: item for item in dict2}
     # Find differences using DeepDiff for records with the same id
@@ -27,7 +27,7 @@ def compare_records_by_id(dict1, dict2, id_key='id', ignore_types = False, ignor
     differencesArr = []
     for id_value in set(dict1_by_id.keys()).union(set(dict2_by_id.keys())):
         if id_value in dict1_by_id and id_value in dict2_by_id:
-            diff = DeepDiff(dict1_by_id[id_value], dict2_by_id[id_value], ignore_order=True, ignore_type_in_groups = ignore_types,exclude_paths=exclude_paths, **kwargs )
+            diff = DeepDiff(dict1_by_id[id_value], dict2_by_id[id_value], ignore_order=True,exclude_paths=exclude_paths, ignore_type_subclasses=True )
             if diff:
                 if(ignore_items_removed):
                     del diff['dictionary_item_removed']
@@ -48,7 +48,7 @@ def load_json(file_path):
     with open(file_path, 'r') as file:
         return json.load(file)
 
-def checkDiff(filesListBase, filesListCompared, id, ignore_types, ignore_items_removed, ignore_path ,  **kwargs ):
+def checkDiff(filesListBase, filesListCompared, id, ignore_type_in_groups, ignore_items_removed, ignore_path , **kwargs ):
     for fileRecordBase in filesListBase:
         fileRecord =  next(x for x in filesListCompared if x.key ==fileRecordBase.key)
         print(f'Base {str(fileRecordBase)} ToCompare with {str(fileRecord)}')
@@ -56,9 +56,9 @@ def checkDiff(filesListBase, filesListCompared, id, ignore_types, ignore_items_r
         with open(get_path(f'diff-{fileRecordBase.key}.json'), 'w') as f:
             json_data_base = load_json(get_path(fileRecordBase.path))
             json_data_compare_to= load_json(get_path(fileRecord.path))
-            differences = compare_records_by_id(json_data_base, json_data_compare_to, id, ignore_types, ignore_items_removed, ignore_path, **kwargs)
+            differences = compare_records_by_id(json_data_base, json_data_compare_to, id, ignore_type_in_groups, ignore_items_removed, ignore_path, **kwargs)
             if not differences:
-                print(f"JSON objects are equal {fileRecordBase.key}")
+                print(f"\tJSON objects are equal!!!!!!!!!!!! {fileRecordBase.key}")
             else:
                 jsonF = json.dumps(differences, default=lambda o: o.__dict__)
                 f.write(jsonF)
