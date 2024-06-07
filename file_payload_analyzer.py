@@ -5,7 +5,7 @@ import json
 import math
 import pandas as pd
 from dataclasses import dataclass
-
+from diff_manager import *
 
 MAX_RECORDS = 10
 
@@ -53,8 +53,11 @@ def loadFile(prefix, file_name, sortKey):
     return thislist
 
 
-fileListNemo = loadFile( "nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json","pmCampaignId" )
-fileListGRPC = loadFile( "grpc", "/Users/jramirezlondono/Documents/response-rpc-1.json", "pmCampaignId" )
+
+ID = "pmCampaignId"
+
+fileListNemo = loadFile( "nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json", ID)
+fileListGRPC = loadFile( "grpc", "/Users/jramirezlondono/Documents/response-rpc-1.json", ID )
 print(str(fileListNemo))
 print(str(fileListGRPC))
-
+checkDiff(fileListNemo, fileListGRPC, ID)
