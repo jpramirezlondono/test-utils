@@ -1,5 +1,3 @@
-
-
 # Import the os module
 import os
 
@@ -7,10 +5,10 @@ import os
 
 def get_path(file_name):
     current_folder = os.getcwd()
-    folder_out = 'out'
-    folder_out_path = os.path.join(current_folder, folder_out)
+    sub_folder_out = 'out'
+    sub_folder_out_path = os.path.join(current_folder, sub_folder_out)
 
-    if not os.path.exists(folder_out_path):
-        os.makedirs(folder_out_path)
+    if not os.path.exists(sub_folder_out_path):
+        os.makedirs(sub_folder_out_path)
 
-    return os.path.join(folder_out_path, file_name)
+    return os.path.join(sub_folder_out_path, file_name)

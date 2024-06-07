@@ -4,12 +4,13 @@ from sys import getsizeof
 import os
 import json
 import math
+import time
 import pandas as pd
 from dataclasses import dataclass
 from diff_manager import *
 from path_manager import *
 
-MAX_RECORDS = 0
+MAX_RECORDS = 100
 
 @dataclass
 class File(object):
@@ -58,11 +59,32 @@ def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
         print('Error loading JSON file ... exiting')
     return thislist
 
+# Capture the start time
+start_time = time.time()
+print("Application starting ...")
+
+#Key to sort and to identify the records
+ID = "pmCampaignId"
+IGNORE_TYPE_IN_GROUPS = False
+IGNORE_DICTIONARY_ITEMS_REMOVED = False
+IGNORE_PATH = ["root['lastHit']"]
 
 
-ID = "pmCampaignId" #Key to sort and to identify the records
-fileListNemo = loadFile_and_split_by_root_entry("nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json", ID)
-fileListGRPC = loadFile_and_split_by_root_entry("grpc", "/Users/jramirezlondono/Documents/response-rpc-1.json", ID)
+fileListNemo = (loadFile_and_split_by_root_entry
+                ("nemo", "/Users/jramirezlondono/Documents/response-nemo-1.json", ID,
+                 ))
+fileListGRPC = (loadFile_and_split_by_root_entry
+                ("grpc",
+                 "/Users/jramirezlondono/Documents/response-rpc-1.json", ID,
+                 ))
 #print(str(fileListNemo))
 #print(str(fileListGRPC))
-checkDiff(fileListNemo, fileListGRPC, ID)
+checkDiff(fileListNemo, fileListGRPC, ID, IGNORE_TYPE_IN_GROUPS,
+          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH)
+
+
+end_time = time.time()
+# Calculate the duration
+duration = end_time - start_time
+# Print the duration
+print(f"Application ran for {duration:.2f} seconds")
