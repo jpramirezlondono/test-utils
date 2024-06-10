@@ -88,7 +88,7 @@ def checkDiff(filesListBase, filesListCompared, id, ignore_type_in_groups, ignor
 
         json_data_base = load_json(get_path(fileRecordBase.path))
         json_data_compare_to= load_json(get_path(fileToCompare.path))
-        validate_and_write_ids(json_data_base, json_data_compare_to, 'common_ids.txt', fileRecordBase.prefix + '_ids.txt', fileToCompare.prefix + '_ids.txt', id)
+        validate_and_write_ids(json_data_base, json_data_compare_to, 'report-common_ids.txt', 'report-'+fileRecordBase.prefix + '_ids.txt', 'report-'+fileToCompare.prefix + '_ids.txt', id)
 
         differences = (compare_records_by_id
                        (json_data_base, json_data_compare_to,
