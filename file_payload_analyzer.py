@@ -16,6 +16,7 @@ MAX_RECORDS = 100
 class File(object):
     key: str
     path: str
+    prefix: str
 
 def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
     thislist = []
@@ -51,7 +52,7 @@ def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
                 else:
                     print(f'Created ... {prefix}-{key} Records {records} with size {tfile_size}')
 
-                fileRecordInstance = File(key, f'{prefix}-{key}.json')
+                fileRecordInstance = File(key, f'{prefix}-{key}.json', prefix )
                 thislist.append(fileRecordInstance)
 
     except:
@@ -80,7 +81,7 @@ fileListGRPC = (loadFile_and_split_by_root_entry
 #print(str(fileListNemo))
 #print(str(fileListGRPC))
 checkDiff(fileListNemo, fileListGRPC, ID, IGNORE_TYPE_IN_GROUPS,
-          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH, ignore_types=True)
+          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH)
 
 
 end_time = time.time()
