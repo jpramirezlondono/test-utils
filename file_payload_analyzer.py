@@ -71,16 +71,16 @@ IGNORE_DICTIONARY_ITEMS_REMOVED = False
 IGNORE_PATH = []
 
 
-fileListNemo = (loadFile_and_split_by_root_entry
+fileListBase = (loadFile_and_split_by_root_entry
                 ("nemo", "/Users/jramirezlondono/Documents/nemo-luis.json", ID
                 ))
-fileListGRPC = (loadFile_and_split_by_root_entry
+fileListToCompare = (loadFile_and_split_by_root_entry
                 ("grpc",
                  "/Users/jramirezlondono/Documents/grpc-luis.json", ID
                  ))
 #print(str(fileListNemo))
 #print(str(fileListGRPC))
-checkDiff(fileListNemo, fileListGRPC, ID, IGNORE_TYPE_IN_GROUPS,
+checkDiff(fileListBase, fileListToCompare, ID, IGNORE_TYPE_IN_GROUPS,
           IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH)
 
 
