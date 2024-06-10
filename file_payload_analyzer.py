@@ -66,7 +66,6 @@ print("Application starting ...")
 
 #Key to sort and to identify the records
 ID = "pmCampaignId"
-IGNORE_TYPE_IN_GROUPS = False
 IGNORE_DICTIONARY_ITEMS_REMOVED = False
 IGNORE_PATH = []
 
@@ -80,7 +79,7 @@ fileListToCompare = (loadFile_and_split_by_root_entry
                  ))
 #print(str(fileListNemo))
 #print(str(fileListGRPC))
-checkDiff(fileListBase, fileListToCompare, ID, IGNORE_TYPE_IN_GROUPS,
+checkDiff(fileListBase, fileListToCompare, ID,
           IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH)
 
 

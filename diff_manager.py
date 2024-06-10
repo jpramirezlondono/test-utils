@@ -80,7 +80,7 @@ def validate_and_write_ids(dict1, dict2, file_common, file_only_in_first, file_o
         for id in only_in_second_ids:
             f.write(f"{id}\n")
 
-def checkDiff(filesListBase, filesListCompared, id, ignore_type_in_groups, ignore_items_removed, ignore_path , **kwargs ):
+def checkDiff(filesListBase, filesListCompared, id, ignore_items_removed, ignore_path , **kwargs ):
     for fileRecordBase in filesListBase:
         fileToCompare =  next(x for x in filesListCompared if x.key ==fileRecordBase.key)
         print(f'Base {str(fileRecordBase)} ToCompare with {str(fileToCompare)}')
@@ -92,7 +92,8 @@ def checkDiff(filesListBase, filesListCompared, id, ignore_type_in_groups, ignor
 
         differences = (compare_records_by_id
                        (json_data_base, json_data_compare_to,
-                        id, ignore_type_in_groups,
+                        id,
+                        ignore_path,
                         ignore_items_removed,
                         **kwargs))
         if not differences:
