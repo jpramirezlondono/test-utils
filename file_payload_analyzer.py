@@ -19,6 +19,7 @@ class File(object):
     prefix: str
 
 def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
+    #delete_tmp_folder()
     thislist = []
     try:
         # request file name
@@ -33,8 +34,13 @@ def loadFile_and_split_by_root_entry(prefix, file_name, sortKey):
         for key, value in split_data.items():
             with open(get_path(f'{prefix}-{key}.json'), 'w') as f:
                 panadas_dataFrame = pd.DataFrame(value)
-                panadas_dataFrame[[sortKey]] = panadas_dataFrame[[sortKey]].astype(int)
-                sorted_data = panadas_dataFrame.sort_values(by=[sortKey])
+                if isinstance(sortKey, list):
+                    for k in sortKey:
+                        panadas_dataFrame[k] = panadas_dataFrame[k].astype(int)
+                    sorted_data = panadas_dataFrame.sort_values(by=sortKey)
+                else:
+                    panadas_dataFrame[[sortKey]] = panadas_dataFrame[[sortKey]].astype(int)
+                    sorted_data = panadas_dataFrame.sort_values(by=[sortKey])
                 sorted_data_list = sorted_data.to_dict(orient="records")
                 total_size = getsizeof(sorted_data)
                 total_records = len(sorted_data_list)
@@ -65,22 +71,25 @@ start_time = time.time()
 print("Application starting ...")
 
 #Key to sort and to identify the records
-ID = "pmCampaignId"
+ID = ["pmCampaignId","measurementSourceId"]
 IGNORE_DICTIONARY_ITEMS_REMOVED = False
-IGNORE_PATH = []
+IGNORE_PATH = ["root['iasCampaignName']","root['createdOn']","root['salesforceTicketUrl']"]
+IGNORE_TYPES = []
 
 
 fileListBase = (loadFile_and_split_by_root_entry
-                ("nemo", "/Users/jramirezlondono/Documents/nemo-luis.json", ID
+                ("nemo", "/Users/jramirezlondono/Documents/response-nemo.json", ID
                 ))
 fileListToCompare = (loadFile_and_split_by_root_entry
                 ("grpc",
-                 "/Users/jramirezlondono/Documents/grpc-luis.json", ID
+                 "/Users/jramirezlondono/Documents/response-grpc.json", ID
                  ))
 #print(str(fileListNemo))
 #print(str(fileListGRPC))
 checkDiff(fileListBase, fileListToCompare, ID,
-          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH)
+          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH
+
+          )
 
 
 end_time = time.time()

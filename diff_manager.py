@@ -19,18 +19,28 @@ def convert_types_to_string(data):
     else:
         return data
 
+def getKey(id, obj):
+    if isinstance(id, list):
+        values = [str(obj.get(key, "0")) for key in id]
+        # Join the values with '-' and enclose in brackets
+        return "-".join(values)
+    else:
+        return obj[id];
+
 def compare_records_by_id(dict1, dict2, id_key='id', ignore_items_removed = False, exclude_paths = [], **kwargs):
-    dict1_by_id = {item[id_key]: item for item in dict1}
-    dict2_by_id = {item[id_key]: item for item in dict2}
+    dict1_by_id = {getKey(id_key, item): item for item in dict1}
+    dict2_by_id = {getKey(id_key, item): item for item in dict2}
     # Find differences using DeepDiff for records with the same id
+
     differences = {}
     differencesArr = []
     for id_value in set(dict1_by_id.keys()).union(set(dict2_by_id.keys())):
         if id_value in dict1_by_id and id_value in dict2_by_id:
-            diff = DeepDiff(dict1_by_id[id_value], dict2_by_id[id_value], ignore_order=True,exclude_paths=exclude_paths, ignore_type_subclasses=True, **kwargs )
+            diff = DeepDiff(dict1_by_id[id_value], dict2_by_id[id_value], ignore_order=True,exclude_paths=exclude_paths)
             if diff:
-                if(ignore_items_removed):
-                    del diff['dictionary_item_removed']
+                #if(ignore_items_removed):
+                    #del diff['dictionary_item_removed']
+
                 differences[id_value] = diff
                 differencesArr.append(DiffEntry(id_value,  convert_types_to_string(diff)))
         elif id_value in dict1_by_id:
@@ -50,8 +60,8 @@ def load_json(file_path):
 
 def validate_and_write_ids(dict1, dict2, file_common, file_only_in_first, file_only_in_second, id_key='id'):
     # Find common IDs
-    dict1_by_id = {item[id_key]: item for item in dict1}
-    dict2_by_id = {item[id_key]: item for item in dict2}
+    dict1_by_id = {getKey(id_key, item): item for item in dict1}
+    dict2_by_id = {getKey(id_key, item): item for item in dict2}
     common_ids = set(dict1_by_id.keys()).intersection(set(dict2_by_id.keys()))
 
     # Find IDs only in the first dictionary
