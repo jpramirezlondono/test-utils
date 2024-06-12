@@ -74,7 +74,7 @@ print("Application starting ...")
 ID = ["pmCampaignId","measurementSourceId"]
 IGNORE_DICTIONARY_ITEMS_REMOVED = False
 IGNORE_PATH = ["root['iasCampaignName']","root['createdOn']","root['salesforceTicketUrl']"]
-IGNORE_TYPES = []
+IGNORE_TYPES = ["root['reason']", "root['pmVendorClientId']", "root['iasCampaignName']", "root['createdOn']"]
 
 
 fileListBase = (loadFile_and_split_by_root_entry
@@ -87,8 +87,8 @@ fileListToCompare = (loadFile_and_split_by_root_entry
 #print(str(fileListNemo))
 #print(str(fileListGRPC))
 checkDiff(fileListBase, fileListToCompare, ID,
-          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH
-
+          IGNORE_DICTIONARY_ITEMS_REMOVED, IGNORE_PATH,
+          IGNORE_TYPES
           )
 
 

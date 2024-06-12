@@ -9,6 +9,14 @@ class DiffEntry(object):
     key: str
     diff: str
 
+def remove_type_changes(data, keys_to_remove):
+    if 'type_changes' in data:
+        type_changes =   data['type_changes']
+        for key in keys_to_remove:
+            if key in type_changes:
+                del type_changes[key]
+    return data
+
 def convert_types_to_string(data):
     if isinstance(data, dict):
         return {key: convert_types_to_string(value) for key, value in data.items()}
@@ -27,7 +35,7 @@ def getKey(id, obj):
     else:
         return obj[id];
 
-def compare_records_by_id(dict1, dict2, id_key='id', ignore_items_removed = False, exclude_paths = [], **kwargs):
+def compare_records_by_id(dict1, dict2, id_key='id', ignore_items_removed = False, exclude_paths = [], ignore_types = [], **kwargs):
     dict1_by_id = {getKey(id_key, item): item for item in dict1}
     dict2_by_id = {getKey(id_key, item): item for item in dict2}
     # Find differences using DeepDiff for records with the same id
@@ -38,9 +46,7 @@ def compare_records_by_id(dict1, dict2, id_key='id', ignore_items_removed = Fals
         if id_value in dict1_by_id and id_value in dict2_by_id:
             diff = DeepDiff(dict1_by_id[id_value], dict2_by_id[id_value], ignore_order=True,exclude_paths=exclude_paths)
             if diff:
-                #if(ignore_items_removed):
-                    #del diff['dictionary_item_removed']
-
+                diff = remove_type_changes (diff, ignore_types)
                 differences[id_value] = diff
                 differencesArr.append(DiffEntry(id_value,  convert_types_to_string(diff)))
         elif id_value in dict1_by_id:
@@ -90,7 +96,7 @@ def validate_and_write_ids(dict1, dict2, file_common, file_only_in_first, file_o
         for id in only_in_second_ids:
             f.write(f"{id}\n")
 
-def checkDiff(filesListBase, filesListCompared, id, ignore_items_removed, ignore_path , **kwargs ):
+def checkDiff(filesListBase, filesListCompared, id, ignore_items_removed, ignore_path ,ignore_types,  **kwargs ):
     for fileRecordBase in filesListBase:
         fileToCompare =  next(x for x in filesListCompared if x.key ==fileRecordBase.key)
         print(f'Base {str(fileRecordBase)} ToCompare with {str(fileToCompare)}')
@@ -105,6 +111,7 @@ def checkDiff(filesListBase, filesListCompared, id, ignore_items_removed, ignore
                         id,
                         ignore_path,
                         ignore_items_removed,
+                        ignore_types,
                         **kwargs))
         if not differences:
             print(f"\tJSON objects are equal!!!!!!!!!!!! {fileRecordBase.key}")
